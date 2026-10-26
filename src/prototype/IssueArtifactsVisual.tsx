@@ -11,7 +11,6 @@ import {
   ChecklistIcon,
   IssueOpenedIcon,
   LinkIcon,
-  PlusIcon,
 } from "@primer/octicons-react";
 import { SecurityReviewSession } from "./SecurityReviewSession";
 import { useEffect, useRef, useState } from "react";
@@ -174,15 +173,14 @@ export function IssueArtifactsVisual() {
                   <LinkIcon size={28} />
                   <span>Add link</span>
                 </div>
-                <div className={styles.issueArtifactsMenuItem}>
-                  <PlusIcon size={28} />
-                  <span>Create artifact</span>
-                </div>
                 <div
                   className={styles.issueArtifactsMenuItem}
                   data-cursor-target="create-artifact"
-                  data-pressed={createClick.pressing}
                 >
+                  <FileIcon size={28} />
+                  <span>Create artifact</span>
+                </div>
+                <div className={styles.issueArtifactsMenuItem}>
                   <CodeIcon size={28} />
                   <span>Create HTML artifact</span>
                 </div>

@@ -1672,14 +1672,6 @@
   color: var(--brand-color-text-muted);
 }
 
-.issueArtifactsMenuItem[data-hover="true"] {
-  background: var(--control-transparent-bgColor-hover);
-}
-
-.issueArtifactsMenuItem[data-pressed="true"] {
-  background: var(--control-transparent-bgColor-active);
-}
-
 .issueArtifactsScene {
   border-radius: calc(var(--brand-borderRadius-medium) * 1814 / 720);
 }
