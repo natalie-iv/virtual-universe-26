@@ -1,11 +1,27 @@
 # GitHub Virtual Universe '26 event site
 
-Public event site for the hands-on exercises in [octodemo/virtual-universe-26](https://github.com/octodemo/virtual-universe-26).
+Public event site for the hands-on exercises in
+[octodemo/virtual-universe-26](https://github.com/octodemo/virtual-universe-26).
 
-The root `index.html` and `universe-mona.png` include the UI from
-[octodemo/virtual-universe-26#7](https://github.com/octodemo/virtual-universe-26/pull/7).
-Keep the site files at the repository root for this repository's GitHub Pages
-deployment; the workshop repository stores its copy under `docs/`.
+The site uses the approved light-mode Primer Brand design from the
+[Universe hands-on prototype](https://github.com/github/site-generator/tree/a7d6886a1b7936db06c9a838026877cae2ac24d0/prototypes/universe-hands-on-light).
+The page source and its local demo assets live in `src/prototype/`.
 
-To preview locally, run `python -m http.server 8000 --bind 127.0.0.1` from the
-repository root and open <http://127.0.0.1:8000>.
+## Local development
+
+Use Node.js 24 or later:
+
+```sh
+npm ci
+npm run dev
+```
+
+Open <http://127.0.0.1:5173/virtual-universe-26/>.
+
+## GitHub Pages
+
+Keep the deployable `index.html` and generated `assets/` at the repository root
+for the existing GitHub Pages branch-root deployment. Run `npm run build`
+before publishing changes; Vite writes the production entry point and bundles
+to those root paths. The configured `/virtual-universe-26/` base keeps asset
+URLs working on the project's GitHub Pages URL.
