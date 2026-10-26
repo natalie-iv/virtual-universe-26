@@ -243,15 +243,18 @@
 .keynote::after {
   content: "";
   position: absolute;
+  z-index: 2;
   inset-inline-start: 50%;
   width: 100vw;
-  border-block-start: var(--brand-borderWidth-thin) solid var(--brand-color-border-muted);
+  height: 1px;
+  border: 0;
+  background: var(--brand-color-border-muted);
   transform: translateX(-50%);
   pointer-events: none;
 }
 
 .keynote::before {
-  inset-block-start: 0;
+  inset-block-start: -1px;
 }
 
 .keynote::after {
@@ -498,8 +501,9 @@
   background: var(--brand-color-canvas-subtle);
   color: var(--brand-color-text-muted);
   font: inherit;
+  font-family: var(--brand-fontStack-sansSerif);
   font-size: var(--brand-text-size-200);
-  line-height: 1.6;
+  line-height: 1.5;
   white-space: nowrap;
   cursor: pointer;
 }
