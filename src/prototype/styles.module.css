@@ -498,8 +498,9 @@
   background: var(--brand-color-canvas-subtle);
   color: var(--brand-color-text-muted);
   font: inherit;
+  font-family: var(--brand-fontStack-sansSerif);
   font-size: var(--brand-text-size-200);
-  line-height: 1.6;
+  line-height: 1.5;
   white-space: nowrap;
   cursor: pointer;
 }
