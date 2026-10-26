@@ -46,6 +46,7 @@ import { AnimationCursor, useMeasuredCursorPath } from "./AnimationCursor";
 import homeFrame from "./ensemble-app-start.png";
 import homeMona from "./security-home-mona.png";
 import styles from "./ArtifactAnimation.module.css";
+import pageStyles from "./styles.module.css";
 import { PlayIcon } from "./PlayIcon";
 
 export function UnreadDotIcon({ size = 16 }: { size?: number }) {
@@ -1198,7 +1199,7 @@ export function SecurityReviewSession({
             />
           )}
           <div
-            className={styles.aiFindingsCursor}
+            className={pageStyles.aiFindingsCursor}
             data-clicking={artifactDraft ? artifactSend.pressing : cursorClick.pressing}
             style={{
               transform: `translate(${cursorX}px, ${cursorY}px)`,
