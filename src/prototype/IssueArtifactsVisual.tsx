@@ -5,16 +5,22 @@ import {
   animationClick,
   useLoopReset,
 } from "./AnimationTimeline";
-import { FileIcon, ChecklistIcon, IssueOpenedIcon } from "@primer/octicons-react";
+import {
+  FileIcon,
+  ChecklistIcon,
+  CodeIcon,
+  IssueOpenedIcon,
+  LinkIcon,
+} from "@primer/octicons-react";
 import { SecurityReviewSession } from "./SecurityReviewSession";
 import { useEffect, useRef, useState } from "react";
 import { PlaybackControl } from "./PlaybackControl";
 import { AnimationCursor, useMeasuredCursorPath } from "./AnimationCursor";
 import { ProductControlFeedback } from "./ProductControlFeedback";
 import startFrame from "./issue-artifacts-start.png";
-import menuFrame from "./issue-artifacts-menu.png";
 import artifactPanel from "./issue-artifacts-panel.png";
 import styles from "./ArtifactAnimation.module.css";
+import pageStyles from "./styles.module.css";
 
 const artifactCreatedAt = 10200;
 
@@ -102,9 +108,9 @@ export function IssueArtifactsVisual() {
     [3440, 1762, 50, "close-artifact"],
     [3990, 1695, 726, "add-artifact"],
     [4810, 1695, 726, "add-artifact"],
-    [5360, 1536, 1042, "create-artifact"],
-    [5680, 1536, 1042, "create-artifact"],
-    [6230, 2030, 1042],
+    [5360, 1504, 880, "create-artifact"],
+    [5680, 1504, 880, "create-artifact"],
+    [6230, 2030, 880],
   ]);
 
   const openClick = animationClick(elapsed, 850);
@@ -124,8 +130,6 @@ export function IssueArtifactsVisual() {
     (1 - progress(elapsed, closeClick.release, closeClick.release + 200));
 
   const menuOpen = menuClick.released && !createClick.released;
-
-  const menuVisible = menuOpen;
 
   const artifactCreated = elapsed >= artifactCreatedAt;
 
@@ -159,22 +163,7 @@ export function IssueArtifactsVisual() {
       <div ref={loopRef} className={styles.issueArtifactsLoop}>
         <div className={styles.issueArtifactsScene} aria-hidden="true">
           <div className={styles.issueArtifactsArtwork}>
-            {[startFrame, menuFrame].map((src, index) => (
-              <img
-                key={src}
-                className={styles.issueArtifactsImage}
-                src={src}
-                alt=""
-                style={{
-                  opacity:
-                    index === 0 || menuVisible
-                      ? index === 1 && !reducedMotion
-                        ? menuProgress
-                        : 1
-                      : 0,
-                }}
-              />
-            ))}
+            <img className={styles.issueArtifactsImage} src={startFrame} alt="" />
             {artifactCreated && (
               <>
                 <span className={styles.issueArtifactsCount}>4</span>
@@ -193,11 +182,16 @@ export function IssueArtifactsVisual() {
                 </div>
               </>
             )}
+            <div className={styles.issueArtifactsParent}>
+              <IssueOpenedIcon size={28} />
+              <span>Parent:</span>
+              <span>[Initiative] Improve the developer onboarding experience</span>
+            </div>
             {panelVisible && (
               <>
                 <div
                   className={styles.issueArtifactsVeil}
-                  style={{ opacity: panelProgress * 0.5 }}
+                  style={{ opacity: closeClick.released ? 0 : panelProgress * 0.5 }}
                 />
                 <img
                   className={styles.issueArtifactsPanel}
@@ -207,17 +201,6 @@ export function IssueArtifactsVisual() {
                 />
               </>
             )}
-            <div
-              className={styles.issueArtifactsParent}
-              data-dimmed={panelVisible}
-              style={{
-                clipPath: panelVisible ? "inset(0 16px 0 0)" : undefined,
-              }}
-            >
-              <IssueOpenedIcon size={28} />
-              <span>Parent:</span>
-              <span>[Initiative] Improve the developer onboarding experience</span>
-            </div>
             {!menuOpen && !createClick.released && !panelVisible && (
               <ProductControlFeedback
                 image={startFrame}
@@ -239,14 +222,27 @@ export function IssueArtifactsVisual() {
               />
             )}
             {menuOpen && (
-              <ProductControlFeedback
-                image={menuFrame}
-                target="create-artifact"
-                rect={[1364, 1010, 344, 64]}
-                variant="invisible"
-                hovered={menuOpen && elapsed >= 5360}
-                pressed={createClick.pressing}
-              />
+              <div
+                className={styles.issueArtifactsMenu}
+                style={{ opacity: reducedMotion ? 1 : menuProgress }}
+              >
+                <div>
+                  <LinkIcon size={32} />
+                  <span>Add link</span>
+                </div>
+                <div
+                  data-cursor-target="create-artifact"
+                  data-hover={elapsed >= 5360}
+                  data-pressed={createClick.pressing}
+                >
+                  <FileIcon size={32} />
+                  <span>Create artifact</span>
+                </div>
+                <div>
+                  <CodeIcon size={32} />
+                  <span>Create HTML artifact</span>
+                </div>
+              </div>
             )}
             {panelVisible && (
               <div style={{ position: "absolute", left: 1030, top: 0 }}>
@@ -271,7 +267,7 @@ export function IssueArtifactsVisual() {
             )}
           </div>
           <div
-            className={styles.aiFindingsCursor}
+            className={pageStyles.aiFindingsCursor}
             data-clicking={clicking}
             style={{
               transform: `translate(${cursorX}px, ${cursorY}px)`,
