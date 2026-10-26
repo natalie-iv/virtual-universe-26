@@ -1,0 +1,454 @@
+.tokens {
+  --control-bgColor-rest: var(--brand-color-canvas-subtle);
+  --control-bgColor-hover: var(--base-color-scale-gray-0);
+  --control-bgColor-active: var(--base-color-scale-gray-1);
+  --control-borderColor-rest: var(--base-color-scale-gray-2);
+  --button-default-bgColor-hover: var(--control-bgColor-hover);
+  --button-default-bgColor-active: var(--control-bgColor-active);
+  --button-primary-bgColor-hover: var(--brand-color-success-fg);
+  --button-primary-bgColor-active: var(--base-color-scale-green-7);
+  --button-primary-bgColor-rest: var(--brand-color-success-fg);
+  --button-primary-bgColor-disabled: var(--base-color-scale-green-2);
+  --button-primary-borderColor-rest: color-mix(
+    in srgb,
+    var(--base-color-scale-gray-9) 15%,
+    transparent
+  );
+  --button-primary-borderColor-hover: color-mix(
+    in srgb,
+    var(--base-color-scale-gray-9) 15%,
+    transparent
+  );
+  --button-primary-borderColor-active: color-mix(
+    in srgb,
+    var(--base-color-scale-gray-9) 15%,
+    transparent
+  );
+  --button-primary-borderColor-disabled: var(--button-primary-bgColor-disabled);
+  --button-primary-fgColor-rest: var(--base-color-scale-white-0);
+  --button-primary-fgColor-disabled: color-mix(
+    in srgb,
+    var(--base-color-scale-white-0) 80%,
+    transparent
+  );
+  --button-primary-shadow-selected: inset 0 1px 0 0
+    color-mix(in srgb, var(--base-color-scale-green-9) 30%, transparent);
+  --control-checked-bgColor-hover: var(--brand-color-text-link-rest);
+  --control-checked-bgColor-active: var(--brand-color-text-link-rest);
+  --control-checked-bgColor-rest: var(--brand-IDE-autoSuggest-bgColor);
+  --control-checked-fgColor-rest: var(--base-color-scale-white-0);
+  --controlTrack-bgColor-hover: var(--base-color-scale-gray-1);
+  --controlTrack-bgColor-active: var(--base-color-scale-gray-1);
+  --control-transparent-bgColor-hover: color-mix(
+    in srgb,
+    var(--brand-color-neutral-emphasis) 10%,
+    transparent
+  );
+  --control-transparent-bgColor-active: color-mix(
+    in srgb,
+    var(--brand-color-neutral-emphasis) 15%,
+    transparent
+  );
+  --borderRadius-medium: 6px;
+  --borderRadius-full: 9999px;
+  --fgColor-accent: var(--brand-IDE-autoSuggest-bgColor);
+}
+
+.feedback {
+  position: absolute;
+  pointer-events: none;
+}
+
+.sprite {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.automations {
+  composes: tokens;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  container-type: size;
+}
+
+.automationsScene {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1418px;
+  height: 776px;
+  zoom: min(calc(80cqw / 1418px), calc(68cqh / 776px));
+  transform: translate(-50%, -50%);
+}
+
+.automationsScene > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.automations[data-automation-created="true"] .automationsScene > img {
+  visibility: hidden;
+}
+
+.automationDialogLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--base-color-scale-white-0) 82%, transparent);
+  backdrop-filter: blur(2px);
+}
+
+.automationDialogLayer[hidden] {
+  display: none;
+}
+
+.automationDialog {
+  width: min(640px, calc(100% - 48px));
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--base-color-scale-gray-9) 15%, transparent);
+  border-radius: 12px;
+  background: var(--base-color-scale-white-0);
+  color: var(--base-color-scale-gray-9);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--base-color-scale-gray-9) 20%, transparent);
+  font: 14px/1.5 var(--brand-fontStack-sansSerif);
+  transform: scale(0.9);
+}
+
+.automationDialog button,
+.automationDialog input {
+  box-sizing: border-box;
+  min-height: 32px;
+  border: 1px solid var(--control-borderColor-rest);
+  border-radius: var(--borderRadius-medium);
+  color: inherit;
+  font: inherit;
+}
+
+.automationDialog button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 12px;
+  background: var(--control-bgColor-rest);
+  font-weight: 500;
+}
+
+.automationDialog button[data-hover="true"] {
+  background: var(--control-bgColor-hover);
+}
+
+.automationDialog button[data-pressed="true"] {
+  background: var(--control-bgColor-active);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--base-color-scale-gray-9) 15%, transparent);
+}
+
+.automationDialog > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48px;
+  padding: 8px 8px 8px 18px;
+  border-bottom: 1px solid var(--control-borderColor-rest);
+}
+
+.automationDialog > header strong {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.automationDialog > header button {
+  border-color: transparent;
+  background: transparent;
+  padding: 8px;
+}
+
+.automationDialogBody {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+}
+
+.automationDialog label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-weight: 500;
+}
+
+.automationDialog input {
+  width: 100%;
+  padding: 4px 12px;
+  background: var(--base-color-scale-white-0);
+}
+
+.automationSchedule {
+  display: flex;
+  gap: 12px;
+}
+
+.automationSchedule button {
+  min-width: 144px;
+  padding-right: 10px;
+}
+
+.automationPrompt {
+  overflow: hidden;
+  margin-top: -10px;
+  border: 1px solid var(--control-borderColor-rest);
+  border-radius: 12px;
+}
+
+.automationPrompt p {
+  min-height: 64px;
+  margin: 0;
+  padding: 12px;
+}
+
+.automationPrompt > div {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px;
+}
+
+.automationPrompt span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.automationProject {
+  align-self: flex-start;
+}
+
+.automationProjectRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 44px;
+}
+
+.automationProjectRow .automationProject {
+  min-height: 28px;
+  padding: 4px 8px;
+  border: none;
+  background: transparent;
+  color: var(--brand-color-text-muted);
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.automationProjectRow button[data-hover="true"] {
+  background: var(--control-transparent-bgColor-hover);
+  color: var(--base-color-scale-gray-9);
+}
+
+.automationProjectRow button[data-pressed="true"] {
+  background: var(--control-transparent-bgColor-active);
+}
+
+.automationProjectPicker {
+  position: relative;
+}
+
+.automationWorktreeIcon {
+  transform: rotate(90deg);
+}
+
+.automationProjectMenu {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  z-index: 1;
+  width: 288px;
+  overflow: hidden;
+  border: 1px solid var(--base-color-scale-gray-2);
+  border-radius: 12px;
+  background: var(--base-color-scale-white-0);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--base-color-scale-gray-9) 15%, transparent);
+  transform-origin: bottom left;
+}
+
+.automationProjectMenu > div {
+  position: relative;
+  height: 36px;
+  border-bottom: 1px solid var(--base-color-scale-gray-2);
+}
+
+.automationProjectMenu input {
+  height: 36px;
+  padding-right: 32px;
+  border: none;
+  border-radius: 0;
+}
+
+.automationProjectMenu > div > svg {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: var(--brand-color-text-muted);
+}
+
+.automationProjectMenu ul {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+}
+
+.automationProjectMenu li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px 4px 30px;
+  border-radius: 6px;
+}
+
+.automationProjectMenu li[data-hover="true"] {
+  background: var(--control-bgColor-hover);
+}
+
+.automationProjectMenu li[data-pressed="true"] {
+  background: var(--control-bgColor-active);
+}
+
+.automationHint {
+  margin: 0;
+  color: var(--brand-color-text-muted);
+  font-size: 12px;
+}
+
+.automationDialog > footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px;
+  border-top: 1px solid var(--control-borderColor-rest);
+}
+
+.automationDialog > footer > div {
+  display: flex;
+  gap: 8px;
+}
+
+.automationCreate {
+  display: flex;
+}
+
+.automationCreate button {
+  border-color: var(--button-primary-borderColor-rest);
+  border-radius: 6px 0 0 6px;
+  background: var(--button-primary-bgColor-rest);
+  color: var(--button-primary-fgColor-rest);
+}
+
+.automationCreate button + button {
+  border-left-color: color-mix(in srgb, var(--base-color-scale-white-0) 40%, transparent);
+  border-radius: 0 6px 6px 0;
+  padding-inline: 8px;
+}
+
+.automationCreate button[data-hover="true"] {
+  background: var(--button-primary-bgColor-hover);
+}
+
+.automationCreate button[data-pressed="true"] {
+  background: var(--button-primary-bgColor-active);
+  box-shadow: var(--button-primary-shadow-selected);
+}
+
+.automationResult {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  inset: 3px 3px 18px 18px;
+  padding: 40px 56px;
+  border: 1px solid var(--base-color-scale-gray-2);
+  border-radius: 10px;
+  background: var(--base-color-scale-white-0);
+  box-shadow: -15px 15px 0 var(--brand-color-success-fg);
+  color: var(--base-color-scale-gray-9);
+  font: 24px/1.5 var(--brand-fontStack-sansSerif);
+}
+
+.automationResult h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.automationResult > p {
+  max-width: 454px;
+  margin: 4px 0 20px;
+  color: var(--brand-color-text-muted);
+  font-size: 20px;
+}
+
+.automationResultCard {
+  width: 414px;
+  overflow: hidden;
+  padding: 20px 20px 0;
+  border: 1px solid var(--base-color-scale-gray-2);
+  border-radius: 12px;
+}
+
+.automationResultCard > div {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.automationResultCard strong {
+  font-weight: 500;
+}
+
+.automationResultCard > div > span {
+  padding: 0 8px;
+  border-radius: 6px;
+  background: var(--base-color-scale-blue-0);
+  color: var(--brand-IDE-autoSuggest-bgColor);
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.automationResultCard p {
+  min-height: 72px;
+  margin: 4px 0 16px;
+  color: var(--brand-color-text-muted);
+}
+
+.automationResultCard footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 68px;
+  margin: 0 -20px;
+  padding: 10px 20px;
+  background: var(--brand-color-canvas-subtle);
+  color: var(--brand-color-text-muted);
+  font-size: 20px;
+}
+
+.automationResultCard footer > span {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+}
+
+.automations > [data-clicking] {
+  z-index: 11;
+}
