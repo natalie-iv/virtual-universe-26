@@ -25,3 +25,8 @@ for the existing GitHub Pages branch-root deployment. Run `npm run build`
 before publishing changes; Vite writes the production entry point and bundles
 to those root paths. The configured `/virtual-universe-26/` base keeps asset
 URLs working on the project's GitHub Pages URL.
+
+After resolving merge conflicts, rebuild from the merged source rather than
+choosing one branch's generated HTML or bundles. The **Check Pages build** workflow
+verifies that committed root output matches the source, including after merges.
+This check does not deploy the site.

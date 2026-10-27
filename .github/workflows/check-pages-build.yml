@@ -1,0 +1,31 @@
+name: Check Pages build
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check-pages-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run build
+      - name: Verify committed Pages output matches source
+        run: |
+          git diff --exit-code -- index.html assets
+          untracked="$(git ls-files --others --exclude-standard -- assets)"
+          if [ -n "$untracked" ]; then
+            echo "::error::Generated Pages assets are not committed. Run npm run build and commit index.html and assets/."
+            printf '%s\n' "$untracked"
+            exit 1
+          fi
