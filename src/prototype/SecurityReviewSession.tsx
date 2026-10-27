@@ -447,7 +447,9 @@ export function SecurityReviewSession({
 
   const time = artifactDraft ? 0 : Math.max(0, playbackTime - homeDurationMs) + sentMs;
 
-  const artifactTypeStart = 570;
+  const artifactTypeStart = 1600;
+
+  const artifactFocus = animationClick(artifactElapsed, 1350);
 
   const artifactSendAt = artifactTypeStart + typingDuration(artifactDraft ?? "", 35) + 650;
 
@@ -465,7 +467,7 @@ export function SecurityReviewSession({
 
   const detailClick = animationClick(time, detailClickMs);
 
-  const focused = Boolean(artifactDraft) || animationClick(time, clickMs).released;
+  const focused = artifactDraft ? artifactFocus.released : animationClick(time, clickMs).released;
 
   const typedCount = typedLength(prompt, time - typeStartMs);
 
@@ -539,10 +541,12 @@ export function SecurityReviewSession({
     artifactDraft ? artifactElapsed : playbackTime,
     artifactDraft
       ? [
-          [0, 2100, 1050],
-          [250, 1000, 850, "artifact-composer"],
-          [470, 1000, 850, "artifact-composer"],
-          [artifactSendAt - 650, 1000, 850, "artifact-composer"],
+          [0, 2100, 850, "artifact-composer", 1100, 0],
+          [600, 2100, 850, "artifact-composer", 1100, 0],
+          [1250, 1000, 850, "artifact-composer"],
+          [1520, 1000, 850, "artifact-composer"],
+          [1950, 1000, 980, "artifact-composer", 0, 130],
+          [artifactSendAt - 650, 1000, 980, "artifact-composer", 0, 130],
           [artifactSendAt - 100, 1600, 950, "artifact-send"],
           [artifactSend.release + 150, 1600, 950, "artifact-send"],
           [artifactSend.release + 700, 2100, 950],
@@ -575,6 +579,8 @@ export function SecurityReviewSession({
           : playbackTime >= homeSendClickMs
             ? homeSendClick
             : focusClick;
+
+  const artifactCursorClick = artifactElapsed < artifactSendAt - 650 ? artifactFocus : artifactSend;
 
   useLayoutEffect(() => {
     const pane = paneRef.current;
@@ -1200,12 +1206,12 @@ export function SecurityReviewSession({
           )}
           <div
             className={pageStyles.aiFindingsCursor}
-            data-clicking={artifactDraft ? artifactSend.pressing : cursorClick.pressing}
+            data-clicking={artifactDraft ? artifactCursorClick.pressing : cursorClick.pressing}
             style={{
               transform: `translate(${cursorX}px, ${cursorY}px)`,
               opacity: (
                 artifactDraft
-                  ? artifactElapsed < artifactSend.release + 700
+                  ? artifactElapsed < artifactSend.release + 700 && !reducedMotion
                   : playbackTime >= 200 && time < cursorHideMs && !reducedMotion
               )
                 ? 1
@@ -1213,7 +1219,7 @@ export function SecurityReviewSession({
               zIndex: 6,
             }}
           >
-            <AnimationCursor clickAge={artifactDraft ? artifactSend.age : cursorClick.age} />
+            <AnimationCursor clickAge={artifactDraft ? artifactCursorClick.age : cursorClick.age} />
           </div>
         </div>
       </div>

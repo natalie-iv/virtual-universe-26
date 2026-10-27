@@ -22,7 +22,7 @@ import artifactPanel from "./issue-artifacts-panel.png";
 import styles from "./ArtifactAnimation.module.css";
 import pageStyles from "./styles.module.css";
 
-const artifactCreatedAt = 10200;
+const artifactCreatedAt = 11230;
 
 // Match Automations' 720 ms result hold before the reset's 200 ms lead-in.
 const duration = artifactCreatedAt + 920;
@@ -123,11 +123,9 @@ export function IssueArtifactsVisual() {
 
   const artifactHovered = elapsed >= 750 && !openClick.released;
 
-  const panelVisible = openClick.released && elapsed < closeClick.release + 200;
+  const panelVisible = openClick.released && !closeClick.released;
 
-  const panelProgress =
-    progress(elapsed, openClick.release, openClick.release + 200) *
-    (1 - progress(elapsed, closeClick.release, closeClick.release + 200));
+  const panelProgress = progress(elapsed, openClick.release, openClick.release + 200);
 
   const menuOpen = menuClick.released && !createClick.released;
 
@@ -151,13 +149,11 @@ export function IssueArtifactsVisual() {
           ? "workspace"
           : menuOpen
             ? "menu"
-            : closeClick.released && panelVisible
-              ? "closing"
-              : panelVisible
-                ? "panel"
-                : artifactHovered
-                  ? "artifact"
-                  : "start"
+            : panelVisible
+              ? "panel"
+              : artifactHovered
+                ? "artifact"
+                : "start"
       }
     >
       <div ref={loopRef} className={styles.issueArtifactsLoop}>
@@ -191,7 +187,7 @@ export function IssueArtifactsVisual() {
               <>
                 <div
                   className={styles.issueArtifactsVeil}
-                  style={{ opacity: closeClick.released ? 0 : panelProgress * 0.5 }}
+                  style={{ opacity: panelProgress * 0.5 }}
                 />
                 <img
                   className={styles.issueArtifactsPanel}
@@ -295,13 +291,11 @@ export function IssueArtifactsVisual() {
             ? "Creating a rollout checklist in the linked conversation."
             : menuOpen
               ? "Artifacts menu open."
-              : closeClick.released && panelVisible
-                ? "API contract draft panel closing."
-                : panelVisible
-                  ? "API contract draft panel open with endpoint details and response shape."
-                  : artifactHovered
-                    ? "API contract draft highlighted in the artifact list."
-                    : "Issue with three attached artifacts."}
+              : panelVisible
+                ? "API contract draft panel open with endpoint details and response shape."
+                : artifactHovered
+                  ? "API contract draft highlighted in the artifact list."
+                  : "Issue with three attached artifacts."}
       </span>
       <PlaybackControl
         complete={complete}
